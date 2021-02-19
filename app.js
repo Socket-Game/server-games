@@ -17,17 +17,24 @@ app.use(cors())
 
 io.on('connection', (socket) => {
   console.log('a user connected');
-  //tambahan part  
   socket.on('newMessage', (message)=>{
-
     console.log('event dari client',message);
     socket.broadcast.emit('serverMessage', message)
   })
 
   socket.on('newQuestion', (answer)=>{
-    // console.log(message, 'di server');
-    console.log('event dari client',answer);
-    socket.broadcast.emit('serverQuestion', answer)
+    console.log('event id question');
+    io.emit('serverQuestion', answer)
+  })
+
+  socket.on('addPoint', (answer)=>{
+    console.log('event add point');
+    io.emit('serverAddPoint', answer)
+  })
+
+  socket.on('resetPoint', ()=>{
+    console.log('event reset point');
+    io.emit('serverResetPoint')
   })
   
 });
